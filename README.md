@@ -1,13 +1,12 @@
-fleetdb.py - Python interface to FleetDB (http://fleetdb.org/)
+*fleetdb.py - Python interface to FleetDB (http://fleetdb.org/)*
  
 Library Maintainer:  
     Matt Culbreth
     mattculbreth@gmail.com
     http://github.com/mattc58/fleetdb-python 
-#####################################################################
+========
  
-This work is distributed under an MIT License: 
-http://www.opensource.org/licenses/mit-license.php
+This work is distributed under an [MIT License:]([http://www.opensource.org/licenses/mit-license.php)
  
 The MIT License
  
@@ -31,11 +30,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-#####################################################################
+========
  
 Hello, this is an open source Python library that serves as an interface to FleetDB.
     
-USAGE:
+*USAGE:*
  
     import fleetdb
     
@@ -46,4 +45,4 @@ USAGE:
     companies = db.select("companies")
     print companies
     
-"""
+
