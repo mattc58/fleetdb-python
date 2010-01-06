@@ -5,13 +5,13 @@ Library Maintainer:
     Matt Culbreth
     mattculbreth@gmail.com
     http://github.com/mattc58/fleetdb-python 
-========
+
  
-This work is distributed under an [MIT License:]([http://www.opensource.org/licenses/mit-license.php)
+This work is distributed under an [MIT License](http://www.opensource.org/licenses/mit-license.php)
  
 The MIT License
  
-Copyright (c) 2008 Matt Culbreth (http://mattculbreth.com)
+Copyright (c) 2010 Matt Culbreth (http://mattculbreth.com)
  
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +31,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-================================
+
+Usage
+-------------------------------
  
 Hello, this is an open source Python library that serves as an interface to FleetDB.
     
-*USAGE:*
- 
     import fleetdb
     
     db = fleetdb.FleetDBClient("localhost", 3400)
