@@ -122,7 +122,21 @@ class FleetDBClient(object):
         Check that a message back from FleetDB is showing success
         '''
         return isinstance(response, list) and len(response) > 0 and response[0] == 0
-                  
+        
+    def query(self, command, *options):
+        '''
+        Send a user-specified query to the database.
+        command = a valid fleetdb command
+        options = any other data required for command
+        '''
+        assert command in self.valid_commands, \
+            "The %s command is not in the list of valid commands: %s" % (command, self.valid_commands)
+        msg = [command]
+        msg.extend(options)
+        
+        response = self._send_command(msg)
+        return response[1]
+        
     def ping(self):
         '''
         Send the ping command to FleetDB and return True / False if it's 
