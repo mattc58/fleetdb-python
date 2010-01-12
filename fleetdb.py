@@ -142,9 +142,8 @@ class FleetDBClient(object):
         Send the ping command to FleetDB and return True / False if it's 
         responding
         '''
-        msg = ["ping"]
-        response = self._send_command(msg)
-        return response[1] == "pong"
+        response = self.query("ping")
+        return response == "pong"
         
     def insert(self, collection_name, data):
         '''
@@ -156,25 +155,18 @@ class FleetDBClient(object):
             assert False not in [isinstance(record, dict) for record in data], "Each record in a list should be a dict"
         assert isinstance(data, dict) or isinstance(data, list), \
             "Data needs to be a dict for 1 record or a list of dictionaries for multiple"
-        msg = ["insert", collection_name, data]
         
-        response = self._send_command(msg)
-        
-        # return the number of records inserted
-        return response[1]
+        return self.query("insert", collection_name, data)
 
     def select(self, collection_name, find_options=None):
         '''
         Query the database for the given collection_name and optional find_options
         '''
-        msg = ["select", collection_name]
+        msg = [collection_name]
         if find_options:
             msg.append(find_options)
             
-        response = self._send_command(msg)
+        return self.query("select", *msg)
         
-        # return the second element in the resonse list, which should be the
-        # query results
-        return response[1]
         
  
