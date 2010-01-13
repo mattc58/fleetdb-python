@@ -158,9 +158,6 @@ class FleetDBClient(object):
         
         return self.query("insert", collection_name, data)
         
-        # return the number of records inserted
-        return response[1]
-        
     def _select(self, command, collection_name, find_options=None):
         '''
         Query the database for the given collection_name and optional find_options
@@ -169,11 +166,7 @@ class FleetDBClient(object):
         if find_options:
             msg.append(find_options)
 
-        response = self._send_command(msg)
-
-        # return the second element in the resonse list, which should be the
-        # query results
-        return response[1]
+        return self.query(command, *msg)
 
     def select(self, collection_name, find_options=None):
         '''

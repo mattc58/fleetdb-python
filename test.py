@@ -37,6 +37,7 @@ THE SOFTWARE.
 Unit tests for fleetdb-python
 """
 import unittest
+import uuid
 import fleetdb
 
 class TestClient(unittest.TestCase):
@@ -56,3 +57,32 @@ class TestClient(unittest.TestCase):
         response = self.client.ping()
         self.assert_(response)
         
+    def test_single_insert(self):
+        '''
+        test a single record insert
+        '''
+        response = self.client.insert("test", {'id' : uuid.uuid4().hex})
+        self.assert_(response, 1)
+        
+    def test_multi_insert(self):
+        '''
+        test a multiple record insert
+        '''
+        response = self.client.insert("test", [{'id' : uuid.uuid4().hex}, {'id' : uuid.uuid4().hex}, {'id' : uuid.uuid4().hex}])
+        self.assert_(response, 3)
+        
+    def test_insert_duplicate(self):
+        '''
+        test that an insert of a duplicate key throws an exception
+        '''
+        def test_insert_duplicates_inner():
+            # first insert something
+            id1 = uuid.uuid4().hex
+            self.client.insert("test", {'id' : id1, 'name' : 'name1'})
+        
+            # now try the same key
+            self.client.insert("test", {'id' : id1, 'name' : 'name2'})
+            
+        self.assertRaises(AssertionError, test_insert_duplicates_inner)
+        
+
