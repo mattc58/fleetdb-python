@@ -118,4 +118,42 @@ class TestClient(unittest.TestCase):
         self.assert_(response)
         self.assertEqual(1, len(response))
 
+    def test_count(self):
+        '''
+        test a count
+        '''
+        # first insert something
+        test_collection = uuid.uuid4().hex
+        response = self.client.insert(test_collection, [{'id' : uuid.uuid4().hex}, {'id' : uuid.uuid4().hex}, {'id' : uuid.uuid4().hex}])
+
+        # get all 3
+        response = self.client.count(test_collection)
+        self.assert_(response)
+        self.assertEqual(3, response)
+
+    def test_count_where(self):
+        '''
+        test a count with a where clause
+        '''
+        # first insert something
+        test_collection = uuid.uuid4().hex
+        id2 = uuid.uuid4().hex
+        response = self.client.insert(test_collection, [{'id' : uuid.uuid4().hex}, {'id' : id2}, {'id' : uuid.uuid4().hex}])
+
+        # get all 3
+        response = self.client.count(test_collection)
+        self.assert_(response)
+        self.assertEqual(3, response)
+
+        # now get 1
+        response = self.client.count(test_collection, {'where' : ['=', 'id', id2]})
+        self.assert_(response)
+        self.assertEqual(1, response)
+        
+        # now try to get 0
+        response = self.client.count(test_collection, {'where' : ['=', 'id', 'should not exist']})
+        self.assertEqual(0, response)
+        
+        
+
 
