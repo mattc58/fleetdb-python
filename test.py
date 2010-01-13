@@ -85,4 +85,37 @@ class TestClient(unittest.TestCase):
             
         self.assertRaises(AssertionError, test_insert_duplicates_inner)
         
+    def test_select(self):
+        '''
+        test a normal select
+        '''
+        # first insert something
+        test_collection = uuid.uuid4().hex
+        id1 = uuid.uuid4().hex
+        self.client.insert(test_collection, {'id' : id1, 'name' : 'name1'})
+        
+        # now get it
+        response = self.client.select(test_collection)
+        self.assert_(response)
+        self.assertEqual(1, len(response))
+        
+    def test_select_where(self):
+        '''
+        test a select with a where clause
+        '''
+        # first insert something
+        test_collection = uuid.uuid4().hex
+        id2 = uuid.uuid4().hex
+        response = self.client.insert(test_collection, [{'id' : uuid.uuid4().hex}, {'id' : id2}, {'id' : uuid.uuid4().hex}])
+        
+        # get all 3
+        response = self.client.select(test_collection)
+        self.assert_(response)
+        self.assertEqual(3, len(response))
+        
+        # now get 1
+        response = self.client.select(test_collection, {'where' : ['=', 'id', id2]})
+        self.assert_(response)
+        self.assertEqual(1, len(response))
+
 

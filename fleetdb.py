@@ -162,7 +162,7 @@ class FleetDBClient(object):
         '''
         Query the database for the given collection_name and optional find_options
         '''
-        msg = [command, collection_name]
+        msg = [collection_name]
         if find_options:
             msg.append(find_options)
 
