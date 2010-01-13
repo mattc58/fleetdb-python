@@ -148,33 +148,33 @@ class FleetDBClient(object):
         
         # return the number of records inserted
         return response[1]
+        
+    def _select(self, command, collection_name, find_options=None):
+        '''
+        Query the database for the given collection_name and optional find_options
+        '''
+        msg = [command, collection_name]
+        if find_options:
+            msg.append(find_options)
+
+        response = self._send_command(msg)
+
+        # return the second element in the resonse list, which should be the
+        # query results
+        return response[1]
 
     def select(self, collection_name, find_options=None):
         '''
         Query the database for the given collection_name and optional find_options
         '''
-        msg = ["select", collection_name]
-        if find_options:
-            msg.append(find_options)
-            
-        response = self._send_command(msg)
-        
-        # return the second element in the resonse list, which should be the
-        # query results
-        return response[1]
+        return self._select("select", collection_name, find_options)
         
     def count(self, collection_name, find_options=None):
         '''
         Return the number of records in the given collection, with optional find_options
         '''
-        msg = ["count", collection_name]
         if find_options:
-            msg.append(find_options)
-
-        response = self._send_command(msg)
-
-        # return the second element in the resonse list, which should be the
-        # query results
-        return response[1]
+            assert "only" not in find_options.keys(), "count() does not support the only option"
+        return self._select("count", collection_name, find_options)
         
  
