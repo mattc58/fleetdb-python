@@ -163,4 +163,18 @@ class FleetDBClient(object):
         # query results
         return response[1]
         
+    def count(self, collection_name, find_options=None):
+        '''
+        Return the number of records in the given collection, with optional find_options
+        '''
+        msg = ["count", collection_name]
+        if find_options:
+            msg.append(find_options)
+
+        response = self._send_command(msg)
+
+        # return the second element in the resonse list, which should be the
+        # query results
+        return response[1]
+        
  
