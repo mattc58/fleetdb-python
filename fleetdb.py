@@ -122,15 +122,28 @@ class FleetDBClient(object):
         Check that a message back from FleetDB is showing success
         '''
         return isinstance(response, list) and len(response) > 0 and response[0] == 0
-                  
+        
+    def query(self, command, *options):
+        '''
+        Send a user-specified query to the database.
+        command = a valid fleetdb command
+        options = any other data required for command
+        '''
+        assert command in self.valid_commands, \
+            "The %s command is not in the list of valid commands: %s" % (command, self.valid_commands)
+        msg = [command]
+        msg.extend(options)
+        
+        response = self._send_command(msg)
+        return response[1]
+        
     def ping(self):
         '''
         Send the ping command to FleetDB and return True / False if it's 
         responding
         '''
-        msg = ["ping"]
-        response = self._send_command(msg)
-        return response[1] == "pong"
+        response = self.query("ping")
+        return response == "pong"
         
     def insert(self, collection_name, data):
         '''
@@ -142,9 +155,8 @@ class FleetDBClient(object):
             assert False not in [isinstance(record, dict) for record in data], "Each record in a list should be a dict"
         assert isinstance(data, dict) or isinstance(data, list), \
             "Data needs to be a dict for 1 record or a list of dictionaries for multiple"
-        msg = ["insert", collection_name, data]
         
-        response = self._send_command(msg)
+        return self.query("insert", collection_name, data)
         
         # return the number of records inserted
         return response[1]
@@ -176,5 +188,4 @@ class FleetDBClient(object):
         if find_options:
             assert "only" not in find_options.keys(), "count() does not support the only option"
         return self._select("count", collection_name, find_options)
-        
  

@@ -36,6 +36,9 @@ Usage
 -------------------------------
  
 Hello, this is an open source Python library that serves as an interface to FleetDB.
+
+*In Progress*. Use the generic **query()** method for now to use any FleetDB API command.
+
     
     import fleetdb
     
